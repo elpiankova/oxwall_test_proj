@@ -10,7 +10,8 @@ from oxwall_site import OwxallSite
 def driver():
     driver = webdriver.Chrome()
     driver.implicitly_wait(15)
-    return driver
+    yield driver
+    driver.quit()
 
 
 @pytest.fixture()

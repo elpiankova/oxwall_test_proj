@@ -1,12 +1,34 @@
 from pages.base_page import BasePage
+from pages.locators import InternalPageLocators
 
 
 class InternalPage(BasePage):
-    # TODO: headers and footers elements and actions
-    pass
+    @property
+    def sign_in_menu(self):
+        return self.find_element(InternalPageLocators.SIGN_IN_MENU)
 
-    # sign_in_menu = self.driver.find_element(*SIGN_IN_MENU)
-    # sign_in_menu.click()
+    @property
+    def sign_up_menu(self):
+        return self.find_visible_element(InternalPageLocators.SIGN_UP_MENU)
+
+    @property
+    def user_menu(self):
+        return self.find_clickable_element(InternalPageLocators.USER_ICON)
+
+    @property
+    def sigh_out_bt(self):
+        return self.user_menu.find_element(*InternalPageLocators.SIGN_OUT)
+
+    @property
+    def main_menu(self):
+        return self.find_element(InternalPageLocators.MAIN_MENU)
+
+    @property
+    def active_menu(self):
+        return self.find_element(InternalPageLocators.ACTIVE_MENU)
+
+    def sign_in_click(self):
+        self.sign_in_menu.click()
 
     def logout(self):
         pass

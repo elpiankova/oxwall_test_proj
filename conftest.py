@@ -3,7 +3,8 @@ import time
 import pytest
 from selenium import webdriver
 
-from oxwall_site import OwxallSite
+from pages.main_page import MainPage
+from pages.sign_in_page import SignInPage
 
 
 @pytest.fixture()
@@ -27,9 +28,12 @@ def open_oxwall_site(driver):
 
 
 @pytest.fixture()
-def login(driver):
-    app = OwxallSite(driver)
-    app.login()
+def logged_user(driver):
+    username = "admin"
+    main_page = MainPage(driver)
+    main_page.sign_in_click()
+    sign_in_page = SignInPage(driver)
+    sign_in_page.login(username=username, password="pass")
     time.sleep(5)
-    yield
-    app.logout()
+    yield username
+    main_page.logout()

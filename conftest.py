@@ -10,8 +10,8 @@ from value_objects.users import User
 
 
 @pytest.fixture()
-def driver():
-    driver = webdriver.Chrome()
+def driver(selenium):
+    driver = selenium
     driver.implicitly_wait(15)
     yield driver
     driver.quit()

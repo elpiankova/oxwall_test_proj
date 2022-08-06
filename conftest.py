@@ -1,3 +1,4 @@
+import json
 import time
 
 import pytest
@@ -5,6 +6,7 @@ from selenium import webdriver
 
 from pages.main_page import MainPage
 from pages.sign_in_page import SignInPage
+from value_objects.users import User
 
 
 @pytest.fixture()
@@ -29,11 +31,22 @@ def open_oxwall_site(driver):
 
 @pytest.fixture()
 def logged_user(driver):
-    username = "admin"
+    user = User(username="admin", password="pass")
     main_page = MainPage(driver)
     main_page.sign_in_click()
     sign_in_page = SignInPage(driver)
-    sign_in_page.login(username=username, password="pass")
+    sign_in_page.login(user)
     time.sleep(5)
-    yield username
+    yield user
     main_page.logout()
+
+
+with open("data/user.json", encoding="utf-8") as f:
+    user_data = json.load(f)
+
+
+@pytest.fixture(params=user_data, ids=[str(u) for u in user_data])
+def user(request):
+    u = User(**request.param)
+    print(u)
+    return u

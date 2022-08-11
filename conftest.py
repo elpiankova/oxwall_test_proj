@@ -4,6 +4,7 @@ import time
 import pytest
 from selenium import webdriver
 
+from db.db_connector import OxwallDB
 from pages.main_page import MainPage
 from pages.sign_in_page import SignInPage
 from value_objects.users import User
@@ -15,6 +16,13 @@ def driver(selenium):
     driver.implicitly_wait(15)
     yield driver
     driver.quit()
+
+
+@pytest.fixture(scope="session")
+def db():
+    db = OxwallDB()
+    yield db
+    db.connection.close()
 
 
 @pytest.fixture()
@@ -46,7 +54,10 @@ with open("data/user.json", encoding="utf-8") as f:
 
 
 @pytest.fixture(params=user_data, ids=[str(u) for u in user_data])
-def user(request):
+def user(request, db):
     u = User(**request.param)
-    print(u)
-    return u
+    if u.username != "admin":
+        db.create_user(u)
+    yield u
+    if u.username != "admin":
+        db.delete_user(u)

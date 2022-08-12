@@ -1,6 +1,10 @@
 from selenium.webdriver.common.by import By
 
 
+class CommonPageLocators:
+    MESSAGE = (By.CLASS_NAME, "ow_message_node")
+
+
 class SignInPageLocators:
     USERNAME_FIELD = (By.NAME, "identity")
     PASSWORD_FIELD = (By.NAME, "password")
@@ -24,6 +28,7 @@ class InternalPageLocators:
     PHOTO_MENU = (By.CSS_SELECTOR, ".ow_site_panel .photo_photo a")
     VIDEO_MENU = (By.CSS_SELECTOR, ".ow_site_panel .video_video ")
 
+    MESSAGE = (By.CLASS_NAME, "ow_message_node")
 
 class DashboardPageLocators:
     TITLE = (By.CSS_SELECTOR, "h1.ow_stdmargin.ow_ic_house")
@@ -49,4 +54,5 @@ class PostBlockLocators:
     POST_TEXT = (By.CLASS_NAME, 'ow_newsfeed_content')
     POST_TIME = (By.CSS_SELECTOR, "a.create_time.ow_newsfeed_date")
     LIKE = (By.CLASS_NAME, "newsfeed_like_btn")
+    LIKE_COUNTER = (By.CLASS_NAME, "newsfeed_counter_likes")
 

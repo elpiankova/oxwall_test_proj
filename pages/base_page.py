@@ -1,7 +1,9 @@
 from selenium import webdriver
-from selenium.common import NoSuchElementException
+from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+
+from pages.locators import CommonPageLocators
 
 
 class BasePage:
@@ -10,6 +12,10 @@ class BasePage:
         # self.driver.implicitly_wait(2)
         self.wait = WebDriverWait(self.driver, 3, poll_frequency=0.1)
         self.action_chain = webdriver.ActionChains(self.driver)
+
+    @property
+    def message(self):
+        return self.find_visible_element(CommonPageLocators.MESSAGE)
 
     def is_element_present(self, locator):
         try:

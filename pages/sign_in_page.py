@@ -1,4 +1,4 @@
-from selenium.webdriver import Keys
+from selenium.webdriver.common.keys import Keys
 
 from pages.base_page import BasePage
 from pages.locators import SignInPageLocators
@@ -33,9 +33,9 @@ class SignInPage(BasePage):
     def submit(self):
         self.password_field.send_keys(Keys.ENTER)
 
-    def login(self, username, password):
-        self.input_username(username)
-        self.input_password(password)
+    def login(self, user):
+        self.input_username(user.username)
+        self.input_password(user.password)
         self.sign_in_button.click()
 
 

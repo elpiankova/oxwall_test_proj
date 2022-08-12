@@ -1,9 +1,14 @@
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.wait import WebDriverWait
+
 from pages.locators import PostBlockLocators
 
 
 class PostBlock:
-    def __init__(self, element):
+    def __init__(self, element, driver):
         self.element = element
+        self.driver = driver
+        self.wait = WebDriverWait(self.driver, 3, poll_frequency=0.1)
 
     @property
     def user(self):
@@ -11,7 +16,9 @@ class PostBlock:
 
     @property
     def text(self):
-        return self.element.find_element(*PostBlockLocators.POST_TEXT).text
+        element = self.element.find_element(*PostBlockLocators.POST_TEXT)
+        element = self.wait.until(EC.visibility_of(element))
+        return element.text
 
     @property
     def time(self):
@@ -20,6 +27,10 @@ class PostBlock:
     @property
     def like_bt(self):
         return self.element.find_element(*PostBlockLocators.LIKE)
+
+    @property
+    def like_counter(self):
+        return self.element.find_element(*PostBlockLocators.LIKE_COUNTER)
 
     def add_like(self):
         self.like_bt.click()

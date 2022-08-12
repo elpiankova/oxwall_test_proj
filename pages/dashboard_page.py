@@ -13,7 +13,9 @@ class DashboardPage(InternalPage):
 
     @property
     def posts(self):
-        return self.find_elements(DashboardPageLocators.POST_BLOCK)
+        elements = self.find_elements(DashboardPageLocators.POST_BLOCK)
+        posts = [PostBlock(element, self.driver) for element in elements]
+        return posts
 
     @property
     def post_text_field(self):

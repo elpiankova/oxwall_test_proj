@@ -18,6 +18,8 @@ def test_sign_in(driver, open_oxwall_site, user):
 
 
 def test_sign_in_admin_submit(driver, open_oxwall_site):
+    main_page = MainPage(driver)
+    main_page.sign_in_menu.click()
     sign_in_page = SignInPage(driver)
     sign_in_page.input_username("admin")
     sign_in_page.input_password("pass")

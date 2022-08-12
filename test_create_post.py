@@ -1,4 +1,5 @@
 import json
+import time
 
 import pytest
 
@@ -20,8 +21,6 @@ def test_create_post(driver, open_oxwall_site, logged_user, input_text, db):
     dashboard_page.wait_new_post_appear(initial_amount_of_posts)
     posts = dashboard_page.posts
     new_post = posts[0]
-    # new_post.add_like()
-    # post_text = dashboard_page.get_text_of_first_post(posts)
     assert db.get_last_text_post() == input_text
     assert new_post.text == input_text
     assert new_post.user == logged_user.username.title()
@@ -32,12 +31,15 @@ def test_add_like_to_middle_post(driver, open_oxwall_site, logged_user):
     posts = dashboard_page.posts
     middle_post = posts[len(posts)//2]
     middle_post.add_like()
+    time.sleep(0.5)
     assert middle_post.like_counter.text == "1"
 
 
-def test_submit_post_without_text(driver, open_oxwall_site, login):
+def test_submit_post_without_text(driver, open_oxwall_site, logged_user):
     dashboard_page = DashboardPage(driver)
     initial_amount_of_posts = dashboard_page.calculate_posts()
+    dashboard_page.post_text_field.click()
     dashboard_page.submit_post()
+    assert dashboard_page.message.text == "PLEASE FILL THE FORM PROPERLY"
     posts = dashboard_page.calculate_posts()
     assert initial_amount_of_posts == posts

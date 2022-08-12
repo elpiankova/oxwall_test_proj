@@ -18,24 +18,24 @@ class presents_of_number_of_elements_located2:
             return elements
 
 
-class A:
-    def __init__(self, prop):
-        self.prop = prop
+if __name__ == '__main__':
+    class A:
+        def __init__(self, prop):
+            self.prop = prop
 
-    # def __add__(self, other):
-    #     pass
+        # def __add__(self, other):
+        #     pass
         # print(self.prop + other.prop)
 
-    def __call__(self, word):
-        print(f"Hello, {word}!")
+        def __call__(self, word):
+            print(f"Hello, {word}!")
 
+    a = A("Bob")
+    b = A("Bob2")
 
-a = A("Bob")
-b = A("Bob2")
-
-a("sdfasd")
-# a()
-# a()
+    a("sdfasd")
+    # a()
+    # a()
 
 
 if __name__ == '__main__':

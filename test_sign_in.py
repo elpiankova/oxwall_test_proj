@@ -1,8 +1,11 @@
+import pytest
+
 from pages.main_page import MainPage
 from pages.sign_in_page import SignInPage
 from pages.dashboard_page import DashboardPage
 
 
+@pytest.mark.nondestructive
 def test_sign_in(driver, open_oxwall_site, user):
     main_page = MainPage(driver)
     main_page.sign_in_menu.click()

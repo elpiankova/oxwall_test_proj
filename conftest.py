@@ -10,6 +10,19 @@ from pages.sign_in_page import SignInPage
 from value_objects.users import User
 
 
+def pytest_addoption(parser):
+    parser.addoption("--config", action="store", default="config.json", help="project config file name")
+    # parser.addoption("--browser", action="store", default="Chrome", help="driver")
+
+
+@pytest.fixture(scope="session")
+def config(request):
+    filename = request.config.getoption("--config")
+    with open(filename, encoding="utf-8") as f:
+        config = json.load(f)
+    return config
+
+
 @pytest.fixture()
 def driver(selenium):
     driver = selenium
@@ -19,15 +32,16 @@ def driver(selenium):
 
 
 @pytest.fixture(scope="session")
-def db():
-    db = OxwallDB()
+def db(config):
+    db = OxwallDB(**config["db"])
     yield db
     db.connection.close()
 
 
 @pytest.fixture()
-def open_oxwall_site(driver):
-    driver.get("http://localhost/oxwall/")
+def open_oxwall_site(driver, base_url):
+    driver.get(base_url)
+    # driver.get(config["base_url"])
     # driver.get("https://demo.oxwall.com/")
     # driver.get("https://demos.softaculous.com/Oxwall")
     # driver.get("https://www.softaculous.com/softaculous/demos/Oxwall")
@@ -38,8 +52,8 @@ def open_oxwall_site(driver):
 
 
 @pytest.fixture()
-def logged_user(driver):
-    user = User(username="admin", password="pass")
+def logged_user(driver, config):
+    user = User(**config["admin"])
     main_page = MainPage(driver)
     main_page.sign_in_click()
     sign_in_page = SignInPage(driver)

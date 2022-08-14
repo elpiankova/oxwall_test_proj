@@ -1,3 +1,4 @@
+import allure
 from selenium.webdriver.common.by import By
 
 from custom_wait_conditions import presents_of_number_of_elements_located
@@ -31,6 +32,7 @@ class DashboardPage(InternalPage):
         else:
             return False
 
+    @allure.step("THEN a new post block appears before old list of posts")
     def wait_new_post_appear(self, initial_amount_of_posts):
         # Wait new post
         posts = self.wait.until(
@@ -39,16 +41,19 @@ class DashboardPage(InternalPage):
         )
         return posts
 
+    @allure.step("WHEN I submit a new post in Dashboard page")
     def submit_post(self):
         # Submit post
         save_button = self.driver.find_element(By.NAME, 'save')
         save_button.click()
 
+    @allure.step("WHEN I add a new post with {input_text} in Dashboard page")
     def input_text_of_new_post(self, input_text):
         self.post_text_field.click()
         self.post_text_field.clear()
         self.post_text_field.send_keys(input_text)
 
+    @allure.step("GIVEN initial amount of post in Oxwall database")
     def calculate_posts(self):
         initial_amount_of_posts = len(self.posts)
         return initial_amount_of_posts

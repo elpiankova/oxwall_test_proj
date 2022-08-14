@@ -1,11 +1,16 @@
 import os.path
 
+import allure
+
 from pages.dashboard_page import DashboardPage
 from pages.join_page import JoinPage
 from pages.main_page import MainPage
 # from conftest import PROJECT_PATH
 
 
+@allure.title("Sign up test ")
+@allure.feature("User Registration")
+@allure.story("Positive sign up")
 def test_create_new_user(driver, user_data):
     # TODO: implement Page Objects methods
     main_page = MainPage(driver)

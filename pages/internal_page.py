@@ -31,4 +31,7 @@ class InternalPage(BasePage):
         self.sign_in_menu.click()
 
     def logout(self):
-        pass
+        if self.is_element_present(InternalPageLocators.USER_MENU):
+            self.action_chain.move_to_element(self.user_menu)
+            self.action_chain.perform()
+            self.sigh_out_bt.click()

@@ -1,15 +1,19 @@
 import json
 import time
+import os.path
 
 import pytest
 
 from pages.dashboard_page import DashboardPage
 from data.random_string import random_string
+from conftest import PROJECT_DIR
 
-with open("data/posts_text.json", encoding="utf8") as f:
+with open(os.path.join(PROJECT_DIR, "data", "posts_text.json"), encoding="utf8") as f:
     posts_text = json.load(f)
 
 posts_text.append(random_string(minlen=3, maxlen=30, enter=True, cyrillic=True))
+
+posts_text[0] = pytest.param(posts_text[0], marks=pytest.mark.smoke)
 
 
 @pytest.mark.parametrize("input_text", posts_text)

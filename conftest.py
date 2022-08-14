@@ -1,5 +1,6 @@
 import json
 import time
+import os.path
 
 import pytest
 from selenium import webdriver
@@ -10,6 +11,9 @@ from pages.sign_in_page import SignInPage
 from value_objects.users import User
 
 
+PROJECT_DIR = os.path.dirname(os.path.abspath(__file__))
+
+
 def pytest_addoption(parser):
     parser.addoption("--config", action="store", default="config.json", help="project config file name")
     # parser.addoption("--browser", action="store", default="Chrome", help="driver")
@@ -18,7 +22,7 @@ def pytest_addoption(parser):
 @pytest.fixture(scope="session")
 def config(request):
     filename = request.config.getoption("--config")
-    with open(filename, encoding="utf-8") as f:
+    with open(os.path.join(PROJECT_DIR, filename), encoding="utf-8") as f:
         config = json.load(f)
     return config
 
@@ -63,7 +67,7 @@ def logged_user(driver, config):
     main_page.logout()
 
 
-with open("data/user.json", encoding="utf-8") as f:
+with open(os.path.join(PROJECT_DIR, "data", "user.json"), encoding="utf-8") as f:
     user_data = json.load(f)
 
 

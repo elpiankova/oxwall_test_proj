@@ -5,6 +5,7 @@ from pages.sign_in_page import SignInPage
 from pages.dashboard_page import DashboardPage
 
 
+@pytest.mark.smoke
 @pytest.mark.nondestructive
 def test_sign_in(driver, open_oxwall_site, user):
     main_page = MainPage(driver)
